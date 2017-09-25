@@ -11,7 +11,6 @@
   "author": "corol",
   "license": "ISC",
   "peerDependencies": {
-    "@types/react": "^16.0.5",
     "ractor": "1.0.2",
     "react": "^15.6.1"
   },
