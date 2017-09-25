@@ -1,0 +1,24 @@
+{
+  "name": "ractor-react",
+  "version": "1.0.0",
+  "description": "react binding for Ractor",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -fr dist & tsc",
+    "prepare": "npm run build"
+  },
+  "author": "corol",
+  "license": "ISC",
+  "peerDependencies": {
+    "@types/react": "^16.0.5",
+    "ractor": "1.0.2",
+    "react": "^15.6.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.0.5",
+    "ractor": "1.0.2",
+    "react": "^15.6.1"
+  },
+  "dependencies": {}
+}
