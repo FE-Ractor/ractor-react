@@ -12,7 +12,7 @@ export const contextType = {
   stores: PropTypes.array
 }
 
-export class Provider extends React.PureComponent<Props> {
+export class Provider extends React.Component<Props> {
   static childContextTypes: Context = contextType
   private stores: Store<any>[] = []
   constructor(props: Props, context: Context) {

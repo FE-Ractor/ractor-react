@@ -5,7 +5,7 @@ import { Context, contextType } from "./Provider"
 
 export function connect<S extends object>(store: new () => Store<S>, selector?: (state: S) => Partial<S>) {
 	return function <P>(component: React.ComponentClass<P>): any {
-		return class ConnectedComponent extends React.Component<P, S> {
+		return class ConnectedComponent extends React.PureComponent<P, S> {
 			static contextTypes = contextType
 			private actorRef?: ActorRef
 			private storeActor: Store<S>
