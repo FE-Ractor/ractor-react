@@ -32,6 +32,14 @@ export class TodoStore extends Store<Todos> {
 		// store 停止的时候记得注销监听，防止内存泄露
 		this.context.system.eventStream.off("*", this.loggerListener)
 	}
+
+	// postError 可以 catch 住你的 Behavior 里的错误信息
+	public postError(err: Error) {
+		// 可以重启
+		// this.context.scheduler!.restart()
+		// 也可以停止
+		this.context.stop()
+	}
 	public createReceive() {
 		return this.receiveBuilder()
 			// 初始化
