@@ -1,6 +1,6 @@
 import * as React from "react"
 import { dispatch, system } from "ractor"
-import { connect } from "ractor-react"
+import { Providers } from "../../../src/Providers"
 import { Header } from "./header/header"
 import { List } from "./list/list"
 import { Control } from "./control/control"
@@ -8,18 +8,22 @@ import { TodoStore, TodoState } from "../stores/todo.store"
 import { InitTodos } from "../messages/InitTodos"
 import { Todo } from "../types/todo"
 
-@connect(TodoStore)
-export default class TodoComponent extends React.Component<TodoState, {}> {
+type Props = { store: TodoState }
+
+@Providers([
+	{ name: "store", provide: TodoStore }
+])
+export default class TodoComponent extends React.Component<Props, {}> {
 	public componentDidMount() {
-		console.log(system)
 		dispatch(new InitTodos)
 	}
 	public render() {
+		const store = this.props.store
 		return (
 			<section className="todoapp">
-				{Header(this.props.todos)}
-				<List todos={this.props.todos} display={this.props.display} />
-				<Control display={this.props.display} todos={this.props.todos} />
+				<Header />
+				<List todos={store.todos} display={store.display} />
+				<Control display={store.display} todos={store.todos} />
 			</section>
 		)
 	}

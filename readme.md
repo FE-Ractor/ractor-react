@@ -39,11 +39,11 @@ render(
 使用 `Provider` 组件注入 我们所有的 store，Provider 内部会依次全部实例化，并放在 context 里面。
 
 ```ts
-@connect(TodoStore)
-export default class TodoComponent extends React.Component<TodoState, {}> {}
+@Providers([{name: "store", provide: TodoStore}])
+export default class TodoComponent extends React.Component<{store: TodoState}, {}> {}
 ```
 
-上面这段代码和 counter 里的用法一模一样，但是如果你已经使用 `Provider` 往 context 里面注入了 store 的话，这里不再会实例化 TodoStore，而是去 context 里面找里面的实例是否 `instance of` 注入的 class。如果找到了就监听他，没找到才会实例化。
+上面这段代码借鉴了 angular 的依赖注入，接收一个数组，说明可以接受多个 store。
 
 看到这里那些喜欢 mobx 和 redux 的同学们不用纠结了，两种写法都适合你...
 
@@ -61,8 +61,19 @@ export default class TodoComponent extends React.Component<TodoState, {}> {}
 
 ### connect
 
-连接 store 和 react 的组件
+方便喜欢 pub/sub 模式的同学，连接 store 和 react 的高阶组件。会初始化传入的 store， 并监听之。
 
 ```ts
 @connect(TodoStore)(TodoComponent)
+```
+
+### Providers
+
+依赖注入的一直实现方式。`Providers` 会按照 name 作为 key，从 context 中找到 provide 的实例的 state 作为值传给你的组件。灵感上参考了很多 angular 的[依赖注入](https://angular.io/guide/dependency-injection)
+
+```ts
+@Providers([
+  {name: "store", provide: TodoStore},
+  {name: "otherStore", provide: OtherStore, selector: state => ({data: state.data})}
+])
 ```

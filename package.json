@@ -1,6 +1,6 @@
 {
   "name": "ractor-react",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "react binding for Ractor",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -18,12 +18,14 @@
   "devDependencies": {
     "@types/react": "^16.0.7",
     "@types/react-dom": "^15.5.5",
-    "ractor": "^1.0.2",
+    "@types/shallowequal": "^0.2.1",
+    "ractor": "^1.0.6",
     "ractor-react": "^1.0.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
   "dependencies": {
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.0",
+    "shallowequal": "^1.0.2"
   }
 }

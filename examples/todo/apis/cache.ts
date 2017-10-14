@@ -6,7 +6,7 @@ export type Todos = {
 }
 
 export const getByCache = () => new Promise<Todos | null>((resolve, reject) => {
-	const todos = localStorage.getItem("reactor-todo")
+	const todos = localStorage.getItem("ractor-todo")
 	if (typeof todos === "string") {
 		resolve(JSON.parse(todos))
 	} else {

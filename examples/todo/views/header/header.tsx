@@ -3,7 +3,7 @@ import { dispatch } from "ractor"
 import { Todo } from "../../types/todo"
 import { AddTodo } from "../../messages/AddTodo"
 
-export const Header = (todos: Todo[]) =>
+export const Header = () =>
 	<header className="header">
 		<h1>todos</h1>
 		<input className="new-todo" onKeyDown={onkeydown} placeholder="What needs to be done?" autoFocus={true} />

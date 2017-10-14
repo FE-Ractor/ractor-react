@@ -1,7 +1,7 @@
 import * as React from "react"
 import { render } from "react-dom"
 import Todo from "./views/todo"
-import { Provider } from "ractor-react"
+import { Provider } from "../../src/Provider"
 import { TodoStore } from "./stores/todo.store"
 
 render(

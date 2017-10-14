@@ -1,5 +1,5 @@
 import * as React from "react"
-import { connect } from "ractor-react"
+import { connect } from "../../../src/connect"
 import { CounterStore } from "../stores/CounterStore"
 import { dispatch } from "ractor"
 import { Increment } from "../messages/Increment"
