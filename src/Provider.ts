@@ -3,7 +3,7 @@ import { system, Store } from "ractor"
 const PropTypes = require("prop-types")
 
 export type Props = {
-  stores: [new () => Store<any>]
+  stores: Array<new () => Store<object>>
 }
 
 export type Context = { stores: Store<any>[] }
