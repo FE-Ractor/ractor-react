@@ -1,7 +1,7 @@
 import * as React from "react"
 import { ActorRef } from "js-actor"
 import { Store, system, Subscription } from "ractor"
-import shallowEqual = require("shallowequal")
+import shallowEqual from "./shallowEqual"
 import { Context, contextType } from "./Provider"
 
 export function connect<S extends object>(storeClass: new () => Store<S>, selector?: (state: S) => Partial<S>) {
