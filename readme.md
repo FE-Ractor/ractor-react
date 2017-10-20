@@ -39,7 +39,7 @@ render(
 使用 `Provider` 组件注入 我们所有的 store，Provider 内部会依次全部实例化，并放在 context 里面。
 
 ```ts
-@Providers([{name: "store", provide: TodoStore}])
+@Providers([{provide: TodoStore, selector: state => ({})}])
 export default class TodoComponent extends React.Component<{store: TodoState}, {}> {}
 ```
 

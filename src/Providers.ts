@@ -5,7 +5,6 @@ import shallowEqual from "./shallowEqual"
 import { Context, contextType } from "./Provider"
 
 export type Provider = {
-	name: string
 	provide: new () => Store<object>
 	selector?: (state: any) => object
 }
@@ -14,7 +13,7 @@ export function Providers(providers: Provider[]) {
 		return class ConnectedComponent<S extends { [key: string]: object }> extends React.Component<P, S> {
 			static contextTypes = contextType
 			private actorRef?: ActorRef
-			private stores: Array<{ name: string, instance: Store<object>, selector?: Provider["selector"] }> = []
+			private stores: Array<{ instance: Store<object>, selector?: Provider["selector"] }> = []
 			private subscriptions: Subscription[] = []
 			private hasStoreMounted = false
 			public context: Context
@@ -29,11 +28,11 @@ export function Providers(providers: Provider[]) {
 					providers.forEach(provider => {
 						for (let contextStore of contextStores) {
 							if (contextStore instanceof provider.provide) {
-								this.state[provider.name] = contextStore.state
-								return this.stores.push({ name: provider.name, instance: contextStore, selector: provider.selector })
+								Object.assign(this.state, contextStore.state)
+								return this.stores.push({ instance: contextStore, selector: provider.selector })
 							}
 						}
-						throw TypeError(`Could not find the instance of ${provider.name}. pass it as the props to <Provider>`)
+						throw TypeError(`Could not find the instance of ${provider.provide.name}. pass it as the props to <Provider>`)
 					})
 				} else {
 					throw TypeError("Could not find store in the context, Please wrap your root component in the <Provider>.")
@@ -46,16 +45,16 @@ export function Providers(providers: Provider[]) {
 
 			public componentDidMount() {
 				this.stores.forEach(store => {
-					const { name, instance, selector } = store
+					const { instance, selector } = store
 					const subscription = instance.subscribe(state => {
 						if (selector) {
 							const selectedState = selector(state)
-							if (!shallowEqual(this.state[name], selectedState)) {
-								this.setState({ [name]: state })
+							if (!shallowEqual(this.state, selectedState)) {
+								this.setState(selectedState)
 							}
 						} else {
-							if (!shallowEqual(this.state[name], state)) {
-								this.setState({ [name]: state })
+							if (!shallowEqual(this.state, state)) {
+								this.setState(state)
 							}
 						}
 					})
