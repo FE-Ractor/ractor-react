@@ -8,22 +8,19 @@ import { TodoStore, TodoState } from "../stores/todo.store"
 import { InitTodos } from "../messages/InitTodos"
 import { Todo } from "../types/todo"
 
-type Props = { store: TodoState }
-
 @Providers([
-	{ name: "store", provide: TodoStore }
+	{ provide: TodoStore }
 ])
-export default class TodoComponent extends React.Component<Props, {}> {
+export default class TodoComponent extends React.Component<TodoState, {}> {
 	public componentDidMount() {
 		dispatch(new InitTodos)
 	}
 	public render() {
-		const store = this.props.store
 		return (
 			<section className="todoapp">
 				<Header />
-				<List todos={store.todos} display={store.display} />
-				<Control display={store.display} todos={store.todos} />
+				<List todos={this.props.todos} display={this.props.display} />
+				<Control display={this.props.display} todos={this.props.todos} />
 			</section>
 		)
 	}
