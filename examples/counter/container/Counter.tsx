@@ -1,7 +1,7 @@
 import * as React from "react"
 import { connect } from "../../../src/connect"
 import { CounterStore } from "../stores/CounterStore"
-import { dispatch } from "ractor"
+import { system } from "../system/counter-system"
 import { Increment } from "../messages/Increment"
 import { Decrement } from "../messages/Decrement"
 
@@ -12,11 +12,11 @@ export class Counter extends React.Component<{ value: number }> {
 			<p>
 				Clicked: {this.props.value} times
 			{' '}
-				<button onClick={() => dispatch(new Increment)}>
+				<button onClick={() => system.dispatch(new Increment)}>
 					+
 			</button>
 				{' '}
-				<button onClick={() => dispatch(new Decrement)}>
+				<button onClick={() => system.dispatch(new Decrement)}>
 					-
 			</button>
 				{' '}
@@ -33,11 +33,11 @@ export class Counter extends React.Component<{ value: number }> {
 
 	public incrementIfOdd = () => {
 		if (this.props.value % 2 === 1) {
-			dispatch(new Increment)
+			system.dispatch(new Increment)
 		}
 	}
 
 	public incrementAsync = () => {
-		setTimeout(() => dispatch(new Increment), 1000)
+		setTimeout(() => system.dispatch(new Increment), 1000)
 	}
 }

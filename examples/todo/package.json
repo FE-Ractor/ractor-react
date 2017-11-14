@@ -2,8 +2,8 @@
 	"dependencies": {
 		"@types/react": "^16.0.7",
 		"@types/react-dom": "^15.5.5",
-		"ractor": "^1.0.2",
-		"ractor-react": "^1.0.3",
+		"ractor": "^1.0.8",
+		"ractor-react": "^1.0.8",
 		"react": "^16.0.0",
 		"react-dom": "^16.0.0",
 		"todomvc-app-css": "^2.1.0",

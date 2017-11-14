@@ -1,5 +1,5 @@
 import * as React from "react"
-import { dispatch } from "ractor"
+import { system } from "../../system/todo-system"
 import { Todo } from "../../types/todo"
 import { ChangeDisplay } from "../../messages/ChangeDisplay"
 import { ClearCompleted } from "../../messages/ClearCompleted"
@@ -32,8 +32,8 @@ export class Control extends React.Component<Props, {}> {
 	}
 
 	private clearCompleted = () => {
-		dispatch(new ClearCompleted)
+		system.dispatch(new ClearCompleted)
 	}
 	
-	private show = (display: string) => () => dispatch(new ChangeDisplay(display))
+	private show = (display: string) => () => system.dispatch(new ChangeDisplay(display))
 }

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { dispatch, system } from "ractor"
+import { system } from "../system/todo-system"
 import { Providers } from "../../../src/Providers"
 import { Header } from "./header/header"
 import { List } from "./list/list"
@@ -13,7 +13,7 @@ import { Todo } from "../types/todo"
 ])
 export default class TodoComponent extends React.Component<TodoState, {}> {
 	public componentDidMount() {
-		dispatch(new InitTodos)
+		system.dispatch(new InitTodos)
 	}
 	public render() {
 		return (

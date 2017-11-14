@@ -1,5 +1,5 @@
 import * as React from "react"
-import { dispatch } from "ractor"
+import { system } from "../../system/todo-system"
 import { Todo } from "../../types/todo"
 import { ToggleToto } from "../../messages/ToggleTodo"
 import { DestroyTodo } from "../../messages/DestroyTodo"
@@ -29,10 +29,10 @@ export class List extends React.Component<{ todos: Todo[], display: string }, {}
 	}
 
 	private toggle = (todo: Todo) => () => {
-		dispatch(new ToggleToto(todo))
+		system.dispatch(new ToggleToto(todo))
 	}
 
 	private destroy = (index: number) => () => {
-		dispatch(new DestroyTodo(index))
+		system.dispatch(new DestroyTodo(index))
 	}
 }

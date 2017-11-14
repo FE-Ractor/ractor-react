@@ -1,5 +1,5 @@
 import * as React from "react"
-import { dispatch } from "ractor"
+import { system } from "../../system/todo-system"
 import { Todo } from "../../types/todo"
 import { AddTodo } from "../../messages/AddTodo"
 
@@ -13,6 +13,6 @@ const onkeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
 	const value = event.currentTarget.value
 	if (value === "") return
 	if (event.keyCode === 13) {
-		dispatch(new AddTodo({ status: "active", value }))
+		system.dispatch(new AddTodo({ status: "active", value }))
 	}
 }
