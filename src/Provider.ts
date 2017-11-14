@@ -1,14 +1,16 @@
 import * as React from "react"
-import { system, Store } from "ractor"
+import { System, Store } from "ractor"
 const PropTypes = require("prop-types")
 
 export type Props = {
-  stores: Array<new () => Store<object>>
+  system: System,
+  stores?: Array<new () => Store<object>>
 }
 
 export type Context = { stores: Store<any>[] }
 
 export const contextType = {
+  system: PropTypes.object,
   stores: PropTypes.array
 }
 
@@ -17,7 +19,7 @@ export class Provider extends React.Component<Props> {
   private stores: Store<any>[] = []
   constructor(props: Props, context: Context) {
     super(props, context)
-    const stores = this.props.stores
+    const { stores = [], system } = this.props
     // provider 的主要职责： 把 store 注册到 system 中
     for (let store of stores) {
       const actor = new store
@@ -27,7 +29,7 @@ export class Provider extends React.Component<Props> {
   }
 
   public getChildContext() {
-    return { stores: this.stores }
+    return { system: this.props.system, stores: this.stores }
   }
 
   public render() {

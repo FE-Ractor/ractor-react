@@ -1,12 +1,13 @@
 import * as React from "react"
 import { ActorRef } from "js-actor"
-import { Store, system, Subscription } from "ractor"
+import { Store, System, Subscription } from "ractor"
 import shallowEqual from "./shallowEqual"
 import { Context, contextType } from "./Provider"
 
 export function connect<S extends object>(storeClass: new () => Store<S>, selector?: (state: S) => Partial<S>) {
 	return function <P>(component: React.ComponentClass<P>): any {
 		return class ConnectedComponent extends React.Component<P, S> {
+			static contextTypes = contextType
 			private store: Store<S>
 			private subscription: Subscription
 			private actor: ActorRef
@@ -24,7 +25,10 @@ export function connect<S extends object>(storeClass: new () => Store<S>, select
 			}
 
 			public componentDidMount() {
-				this.actor = system.actorOf(this.store, "__store__")
+				if (!this.context.system) {
+					throw TypeError(`Could not find the instance of System. pass it as the props to <Provider>`)
+				}
+				this.actor = this.context.system.actorOf(this.store, "__store__")
 				this.subscription = this.store.subscribe(state => {
 					if (selector) {
 						const selectedState = selector(state) as S

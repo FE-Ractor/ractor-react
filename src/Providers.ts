@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ActorRef } from "js-actor"
-import { Store, system, Subscription } from "ractor"
+import { Store, Subscription } from "ractor"
 import shallowEqual from "./shallowEqual"
 import { Context, contextType } from "./Provider"
 
