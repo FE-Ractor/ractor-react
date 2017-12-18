@@ -54,14 +54,14 @@ export default class TodoComponent extends React.Component<{store: TodoState}, {
 高阶组件，需要传入 stores 数组。
 
 ```ts
-<Provider stores={[TodoStore, CounterStore]}>
+<Provider system={system} stores={[TodoStore, CounterStore]}>
   // 你的组件
 </Provider>,
 ```
 
 ### connect
 
-方便喜欢 pub/sub 模式的同学，连接 store 和 react 的高阶组件。会初始化传入的 store， 并监听之。
+实现动态注入 store 的函数，方便喜欢 pub/sub 模式的同学，连接 store 和 react 的高阶组件。会在组件初始化传入的 store， 并监听之。组件卸载的时候同时从 system 中卸载 store.
 
 ```ts
 @connect(TodoStore)(TodoComponent)
@@ -69,11 +69,11 @@ export default class TodoComponent extends React.Component<{store: TodoState}, {
 
 ### Providers
 
-依赖注入的一直实现方式。`Providers` 会按照 name 作为 key，从 context 中找到 provide 的实例的 state 作为值传给你的组件。灵感上参考了很多 angular 的[依赖注入](https://angular.io/guide/dependency-injection)
+依赖注入的一直实现方式。`Providers` 会从 context 中找到 provide 的实例的 state 通过 selector 筛选之后通过 props 传给你的组件。灵感上参考了很多 angular 的[依赖注入](https://angular.io/guide/dependency-injection)
 
 ```ts
 @Providers([
-  {name: "store", provide: TodoStore},
-  {name: "otherStore", provide: OtherStore, selector: state => ({data: state.data})}
+  {provide: TodoStore},
+  {provide: OtherStore, selector: state => ({data: state.data})}
 ])
 ```
