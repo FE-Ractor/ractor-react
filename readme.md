@@ -62,7 +62,7 @@ export default class TodoComponent extends React.Component {}
 实现动态注入 store 的函数，方便喜欢 pub/sub 模式的同学，连接 store 和 react 的高阶组件。会在组件初始化传入的 store， 并监听之。组件卸载的时候同时从 system 中卸载 store.
 
 ```ts
-@connect(TodoStore)(TodoComponent)
+@Connect(TodoStore)(TodoComponent)
 ```
 
 ### Providers
