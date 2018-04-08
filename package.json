@@ -1,6 +1,6 @@
 {
   "name": "ractor-react",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "react binding for Ractor",
   "main": "dist/index.js",
   "repository": {
