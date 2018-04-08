@@ -6,11 +6,8 @@ import { List } from "./list/list"
 import { Control } from "./control/control"
 import { TodoStore, TodoState } from "../stores/todo.store"
 import { InitTodos } from "../messages/InitTodos"
-import { Todo } from "../types/todo"
 
-@Providers([
-	{ provide: TodoStore }
-])
+@Providers([TodoStore], todoState => ({ display: todoState.display, todos: todoState.todos }))
 export default class TodoComponent extends React.Component<TodoState, {}> {
 	public componentDidMount() {
 		system.dispatch(new InitTodos)

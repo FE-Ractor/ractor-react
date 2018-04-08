@@ -4,7 +4,7 @@ const PropTypes = require("prop-types")
 
 export type Props = {
   system: System,
-  stores?: Array<new () => Store<object>>
+  stores?: Array<new (...args: any[]) => Store<any>>
 }
 
 export type Context = { stores: Store<any>[] }

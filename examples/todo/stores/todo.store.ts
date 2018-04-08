@@ -1,6 +1,5 @@
 import { Store } from "ractor"
 import { getByCache, Todos } from "../apis/cache"
-import { Todo } from "../types/Todo"
 
 import { InitTodos } from "../messages/InitTodos"
 import { ChangeDisplay } from "../messages/ChangeDisplay"

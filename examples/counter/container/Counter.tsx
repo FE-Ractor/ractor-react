@@ -1,11 +1,11 @@
 import * as React from "react"
-import { connect } from "../../../src/connect"
+import { Connect } from "../../../src/Connect"
 import { CounterStore } from "../stores/CounterStore"
 import { system } from "../system/counter-system"
 import { Increment } from "../messages/Increment"
 import { Decrement } from "../messages/Decrement"
 
-@connect(CounterStore)
+@Connect(CounterStore)
 export class Counter extends React.Component<{ value: number }> {
 	public render() {
 		return (

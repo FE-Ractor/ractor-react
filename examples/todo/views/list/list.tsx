@@ -1,10 +1,10 @@
 import * as React from "react"
-import { system } from "../../system/todo-system"
 import { Todo } from "../../types/todo"
+import { system } from "../../system/todo-system"
 import { ToggleToto } from "../../messages/ToggleTodo"
 import { DestroyTodo } from "../../messages/DestroyTodo"
 
-export class List extends React.Component<{ todos: Todo[], display: string }, {}> {
+export class List extends React.Component<{ todos: Array<Todo>, display: string }, {}> {
 	public render() {
 		const items = this.props.todos
 			.filter(todo => this.props.display === "all" ? true : todo.status === this.props.display)

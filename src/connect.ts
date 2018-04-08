@@ -4,13 +4,13 @@ import { Store, System, Subscription } from "ractor"
 import shallowEqual from "./shallowEqual"
 import { Context, contextType } from "./Provider"
 
-export function connect<S extends object>(storeClass: new () => Store<S>, selector?: (state: S) => Partial<S>) {
+export function Connect<S extends object>(storeClass: new () => Store<S>, selector?: (state: S) => object) {
 	return function <P>(component: React.ComponentClass<P>): any {
 		return class ConnectedComponent extends React.Component<P, S> {
 			static contextTypes = contextType
 			private store: Store<S>
-			private subscription: Subscription
-			private actor: ActorRef
+			private subscription!: Subscription
+			private actor!: ActorRef
 
 			constructor(props: P) {
 				super(props)

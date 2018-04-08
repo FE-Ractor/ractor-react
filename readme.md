@@ -15,7 +15,7 @@ npm i ractor-react
 所谓 `state store`， 就是你可以把 store 当一个外部状态使用，和内部状态类似，view 是监听这个 state 的，也是动态加载和卸载的。
 
 ```ts
-@connect(CounterStore)
+@Connect(CounterStore)
 export class Counter extends React.Component<{ value: number }> {}
 ```
 
@@ -39,13 +39,11 @@ render(
 使用 `Provider` 组件注入 我们所有的 store，Provider 内部会依次全部实例化，并放在 context 里面。
 
 ```ts
-@Providers([{provide: TodoStore, selector: state => ({})}])
-export default class TodoComponent extends React.Component<{store: TodoState}, {}> {}
+@Providers([AStore, BStore], (aStore, bStore) => ({}))
+export default class TodoComponent extends React.Component {}
 ```
 
-上面这段代码借鉴了 angular 的依赖注入，接收一个数组，说明可以接受多个 store。
-
-看到这里那些喜欢 mobx 和 redux 的同学们不用纠结了，两种写法都适合你...
+使用 `Providers` 从全局中选择性定义传入的 store
 
 ## Api
 
@@ -72,8 +70,5 @@ export default class TodoComponent extends React.Component<{store: TodoState}, {
 依赖注入的一直实现方式。`Providers` 会从 context 中找到 provide 的实例的 state 通过 selector 筛选之后通过 props 传给你的组件。灵感上参考了很多 angular 的[依赖注入](https://angular.io/guide/dependency-injection)
 
 ```ts
-@Providers([
-  {provide: TodoStore},
-  {provide: OtherStore, selector: state => ({data: state.data})}
-])
+@Providers([AStore, BStore], (aStore, bStore) => ({}))
 ```

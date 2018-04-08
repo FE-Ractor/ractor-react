@@ -4,19 +4,23 @@ import { Store, Subscription } from "ractor"
 import shallowEqual from "./shallowEqual"
 import { Context, contextType } from "./Provider"
 
-export type Provider = {
-	provide: new () => Store<object>
-	selector?: (state: any) => object
-}
-export function Providers(providers: Provider[]) {
+export type Provider<T> = new (...args: any[]) => Store<T>
+
+export function Providers<T1, T2, T3, T4, T5, T6>(providers: [Provider<T1>, Provider<T2>, Provider<T3>, Provider<T4>, Provider<T5>, Provider<T6>], selector?: (t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6) => object): <P>(component: React.ComponentClass<P>) => any
+export function Providers<T1, T2, T3, T4, T5>(providers: [Provider<T1>, Provider<T2>, Provider<T3>, Provider<T4>, Provider<T5>], selector?: (t1: T1, t2: T2, t3: T3, t4: T4, t5: T5) => object): <P>(component: React.ComponentClass<P>) => any
+export function Providers<T1, T2, T3, T4>(providers: [Provider<T1>, Provider<T2>, Provider<T3>, Provider<T4>], selector?: (t1: T1, t2: T2, t3: T3, t4: T4) => object): <P>(component: React.ComponentClass<P>) => any
+export function Providers<T1, T2, T3>(providers: [Provider<T1>, Provider<T2>, Provider<T3>], selector?: (t1: T1, t2: T2, t3: T3) => object): <P>(component: React.ComponentClass<P>) => any
+export function Providers<T1, T2>(providers: [Provider<T1>, Provider<T2>], selector?: (t1: T1, t2: T2) => object): <P>(component: React.ComponentClass<P>) => any
+export function Providers<T1>(providers: [Provider<T1>], selector?: (t1: T1) => object): <P>(component: React.ComponentClass<P>) => any
+export function Providers(providers: Provider<any>[], selector?: (...args: any[]) => object) {
 	return function <P>(component: React.ComponentClass<P>): any {
 		return class ConnectedComponent<S extends { [key: string]: object }> extends React.Component<P, S> {
 			static contextTypes = contextType
 			private actorRef?: ActorRef
-			private stores: Array<{ instance: Store<object>, selector?: Provider["selector"] }> = []
+			private stores: Store<object>[] = []
 			private subscriptions: Subscription[] = []
 			private hasStoreMounted = false
-			public context: Context
+			public context!: Context
 			public state = {} as S
 
 			constructor(props: P, context: Context) {
@@ -27,12 +31,12 @@ export function Providers(providers: Provider[]) {
 				if (contextStores) {
 					providers.forEach(provider => {
 						for (let contextStore of contextStores) {
-							if (contextStore instanceof provider.provide) {
+							if (contextStore instanceof provider) {
 								Object.assign(this.state, contextStore.state)
-								return this.stores.push({ instance: contextStore, selector: provider.selector })
+								return this.stores.push(contextStore)
 							}
 						}
-						throw TypeError(`Could not find the instance of ${provider.provide.name}. pass it as the props to <Provider>`)
+						throw TypeError(`Could not find the instance of ${provider.name}. pass it as the props to <Provider>`)
 					})
 				} else {
 					throw TypeError("Could not find store in the context, Please wrap your root component in the <Provider>.")
@@ -45,10 +49,10 @@ export function Providers(providers: Provider[]) {
 
 			public componentDidMount() {
 				this.stores.forEach(store => {
-					const { instance, selector } = store
-					const subscription = instance.subscribe(state => {
+					const subscription = store.subscribe(state => {
 						if (selector) {
-							const selectedState = selector(state)
+							const arrState = this.stores.map(store => store.state)
+							const selectedState = selector(...arrState)
 							if (!shallowEqual(this.state, selectedState)) {
 								this.setState(selectedState)
 							}

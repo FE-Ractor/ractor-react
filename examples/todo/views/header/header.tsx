@@ -1,6 +1,5 @@
 import * as React from "react"
 import { system } from "../../system/todo-system"
-import { Todo } from "../../types/todo"
 import { AddTodo } from "../../messages/AddTodo"
 
 export const Header = () =>
