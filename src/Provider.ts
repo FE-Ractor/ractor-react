@@ -23,7 +23,7 @@ export class Provider extends React.Component<Props> {
     // provider 的主要职责： 把 store 注册到 system 中
     for (let store of stores) {
       const actor = new store
-      system.actorOf(actor, "__store__")
+      system.actorOf(actor)
       this.stores.push(actor)
     }
   }

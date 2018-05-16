@@ -28,7 +28,7 @@ export function Connect<S extends object>(storeClass: new () => Store<S>, select
 				if (!this.context.system) {
 					throw TypeError(`Could not find the instance of System. pass it as the props to <Provider>`)
 				}
-				this.actor = this.context.system.actorOf(this.store, "__store__")
+				this.actor = this.context.system.actorOf(this.store)
 				this.subscription = this.store.subscribe(state => {
 					if (selector) {
 						const selectedState = selector(state) as S
