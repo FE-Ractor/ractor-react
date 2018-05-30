@@ -2,15 +2,17 @@ import * as React from "react"
 import { ActorRef } from "js-actor"
 import { Store, System, Subscription } from "ractor"
 import shallowEqual from "./shallowEqual"
-import { Context, contextType } from "./Provider"
+import { Context, contextType } from "./contextType"
+import { StoreConnected, StoreDisconnected } from "./actions"
 
 export function Connect<S extends object>(storeClass: new () => Store<S>, selector?: (state: S) => object) {
 	return function <P>(component: React.ComponentClass<P>): any {
-		return class ConnectedComponent extends React.Component<P, S> {
+		return class ConnectedComponent extends React.Component<P, S, Context> {
 			static contextTypes = contextType
 			private store: Store<S>
 			private subscription!: Subscription
 			private actor!: ActorRef
+			public context!: Context
 
 			constructor(props: P) {
 				super(props)
@@ -22,6 +24,7 @@ export function Connect<S extends object>(storeClass: new () => Store<S>, select
 			public componentWillUnmount() {
 				this.actor.getContext().stop()
 				this.subscription.unsubscribe()
+				this.context.system.dispatch(new StoreDisconnected(this.store))
 			}
 
 			public componentDidMount() {
@@ -41,6 +44,7 @@ export function Connect<S extends object>(storeClass: new () => Store<S>, select
 						}
 					}
 				})
+				this.context.system.dispatch(new StoreConnected(this.store))
 			}
 			public render() {
 				return React.createElement(component, Object.assign({}, this.props, this.state))

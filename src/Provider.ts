@@ -1,21 +1,14 @@
 import * as React from "react"
 import { System, Store } from "ractor"
-const PropTypes = require("prop-types")
+import { Context, contextType } from "./contextType"
 
 export type Props = {
   system: System,
   stores?: Array<new (...args: any[]) => Store<any>>
 }
 
-export type Context = { stores: Store<any>[] }
-
-export const contextType = {
-  system: PropTypes.object,
-  stores: PropTypes.array
-}
-
 export class Provider extends React.Component<Props> {
-  static childContextTypes: Context = contextType
+  static childContextTypes = contextType
   private stores: Store<any>[] = []
   constructor(props: Props, context: Context) {
     super(props, context)
