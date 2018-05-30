@@ -2,7 +2,7 @@ import * as React from "react"
 import { ActorRef } from "js-actor"
 import { Store, Subscription } from "ractor"
 import shallowEqual from "./shallowEqual"
-import { Context, contextType } from "./Provider"
+import { Context, contextType } from "./contextType"
 
 export type Provider<T> = new (...args: any[]) => Store<T>
 
