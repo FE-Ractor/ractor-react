@@ -1,9 +1,12 @@
 {
 	"name": "name",
 	"description": "description",
-	"authors": "author",
+	"authors": "corol",
 	"version": "1.0.0",
 	"main": "pathToMain",
+	"scripts": {
+		"start": "parcel index.html"		
+	},
 	"dependencies": {
 		"@types/react": "^16.0.7",
 		"@types/react-dom": "^15.5.5",
@@ -13,6 +16,7 @@
 		"react-dom": "^16.0.0"
 	},
 	"devDependencies": {
-		"typescript": "^2.8.3"
+		"typescript": "^2.8.3",
+		"parcel-bundler": "^1.9.2"
 	}
 }
