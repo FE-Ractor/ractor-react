@@ -21,6 +21,11 @@ export class Provider extends React.Component<Props> {
     }
   }
 
+  // 如果是嵌套的情况下, Provider 是有可能被卸载的，所以依附于当前 Provider 的 stores 也是要卸载的
+  public componentWillMount() {
+    this.stores.forEach(store => store.context.stop())
+  }
+
   public getChildContext() {
     return { parent: this.context, system: this.props.system, stores: this.stores }
   }
