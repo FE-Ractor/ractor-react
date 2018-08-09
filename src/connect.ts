@@ -1,7 +1,7 @@
 import * as React from "react"
 import { ActorRef } from "js-actor"
 import { Store, System, Subscription } from "ractor"
-import shallowEqual from "./shallowEqual"
+import shallowEqual from "./shallowPartialEqual"
 import { Context, contextType } from "./contextType"
 import { StoreConnected, StoreDisconnected } from "./actions"
 

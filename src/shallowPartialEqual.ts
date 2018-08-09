@@ -1,5 +1,7 @@
-
-// 抄的 react-redux 的
+/**
+ * 帮助函数之部分比较。
+ * 如果 objB 的 key 在 objA 中则比较两者，如果有不在的则返回 false
+ */
 const hasOwn = Object.prototype.hasOwnProperty
 
 function is(x: any, y: any) {
@@ -10,7 +12,7 @@ function is(x: any, y: any) {
   }
 }
 
-export default function shallowEqual<O extends { [key: string]: any }>(objA: O, objB: O) {
+export default function shallowPartialEqual<O extends { [key: string]: any }>(objA: O, objB: O) {
   if (is(objA, objB)) return true
 
   if (typeof objA !== 'object' || objA === null ||
@@ -21,11 +23,8 @@ export default function shallowEqual<O extends { [key: string]: any }>(objA: O, 
   const keysA = Object.keys(objA)
   const keysB = Object.keys(objB)
 
-  if (keysA.length !== keysB.length) return false
-
-  for (let i = 0; i < keysA.length; i++) {
-    if (!hasOwn.call(objB, keysA[i]) ||
-      !is(objA[keysA[i]], objB[keysA[i]])) {
+  for (let i = 0; i < keysB.length; i++) {
+    if (!(keysA.indexOf(keysB[i]) > -1) || !is(objA[keysB[i]], objB[keysB[i]])) {
       return false
     }
   }
