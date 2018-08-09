@@ -36,11 +36,10 @@ export function Providers(providers: Provider<any>[], selector?: (...args: any[]
 						for (let contextStore of contextStores) {
 							if (contextStore instanceof provider) {
 								Object.assign(this.state, contextStore.state)
-								this.stores.push(contextStore)
-							} else {
-								restOfProviders.push(provider)
+								return this.stores.push(contextStore)
 							}
 						}
+						restOfProviders.push(provider)
 					})
 					if (restOfProviders.length > 0) {
 						if (context.parent) {
