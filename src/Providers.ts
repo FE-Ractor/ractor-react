@@ -42,7 +42,7 @@ export function Providers(providers: Provider<any>[], selector?: (...args: any[]
 						restOfProviders.push(provider)
 					})
 					if (restOfProviders.length > 0) {
-						if (context.parent) {
+						if (context.parent.stores) {
 							this.getStoreFromContext(context.parent, restOfProviders)
 						} else {
 							throw TypeError(`Could not find the instance of ${providers[0].name}. pass it as the props to <Provider>`)
