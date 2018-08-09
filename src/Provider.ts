@@ -8,6 +8,7 @@ export type Props = {
 }
 
 export class Provider extends React.Component<Props> {
+  static contextTypes = contextType
   static childContextTypes = contextType
   private stores: Store<any>[] = []
   constructor(props: Props, context: Context) {
