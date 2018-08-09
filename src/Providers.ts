@@ -25,19 +25,30 @@ export function Providers(providers: Provider<any>[], selector?: (...args: any[]
 
 			constructor(props: P, context: Context) {
 				super(props, context)
+				this.getStoreFromContext(context, providers)
+			}
 
+			private getStoreFromContext(context: Context, providers: Provider<any>[]) {
 				const contextStores = this.context.stores
-
+				const restOfProviders: Provider<any>[] = []
 				if (contextStores) {
 					providers.forEach(provider => {
 						for (let contextStore of contextStores) {
 							if (contextStore instanceof provider) {
 								Object.assign(this.state, contextStore.state)
-								return this.stores.push(contextStore)
+								this.stores.push(contextStore)
+							} else {
+								restOfProviders.push(provider)
 							}
 						}
-						throw TypeError(`Could not find the instance of ${provider.name}. pass it as the props to <Provider>`)
 					})
+					if (restOfProviders.length > 0) {
+						if (context.parent) {
+							this.getStoreFromContext(context.parent, restOfProviders)
+						} else {
+							throw TypeError(`Could not find the instance of ${providers[0].name}. pass it as the props to <Provider>`)
+						}
+					}
 				} else {
 					throw TypeError("Could not find store in the context, Please wrap your root component in the <Provider>.")
 				}

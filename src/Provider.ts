@@ -22,7 +22,7 @@ export class Provider extends React.Component<Props> {
   }
 
   public getChildContext() {
-    return { system: this.props.system, stores: this.stores }
+    return { parent: this.context, system: this.props.system, stores: this.stores }
   }
 
   public render() {
