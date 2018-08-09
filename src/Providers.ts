@@ -29,7 +29,7 @@ export function Providers(providers: Provider<any>[], selector?: (...args: any[]
 			}
 
 			private getStoreFromContext(context: Context, providers: Provider<any>[]) {
-				const contextStores = this.context.stores
+				const contextStores = context.stores
 				const restOfProviders: Provider<any>[] = []
 				if (contextStores) {
 					providers.forEach(provider => {
