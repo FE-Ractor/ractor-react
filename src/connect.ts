@@ -18,7 +18,7 @@ export function Connect<S extends object>(storeClass: new () => Store<S>, select
 				super(props)
 				this.store = new storeClass
 				// 初始化默认值
-				this.state = this.store.state
+				this.state = selector ? selector(this.store.state) as S : this.store.state
 			}
 
 			public componentWillUnmount() {

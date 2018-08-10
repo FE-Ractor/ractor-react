@@ -3,6 +3,7 @@ import { ActorRef } from "js-actor"
 import { Store, Subscription } from "ractor"
 import shallowEqual from "./shallowPartialEqual"
 import { Context, contextType } from "./contextType"
+import { access } from "fs";
 
 export type Provider<T> = new (...args: any[]) => Store<T>
 
@@ -25,17 +26,17 @@ export function Providers(providers: Provider<any>[], selector?: (...args: any[]
 
 			constructor(props: P, context: Context) {
 				super(props, context)
-				this.getStoreFromContext(context, providers)
+				this.getStoreFromContext(context, providers, [])
 			}
 
-			private getStoreFromContext(context: Context, providers: Provider<any>[]) {
+			private getStoreFromContext(context: Context, providers: Provider<any>[], stateArr: object[]) {
 				const contextStores = context.stores
 				const restOfProviders: Provider<any>[] = []
 				if (contextStores) {
 					providers.forEach(provider => {
 						for (let contextStore of contextStores) {
 							if (contextStore instanceof provider) {
-								Object.assign(this.state, contextStore.state)
+								stateArr.push(contextStore.state)
 								return this.stores.push(contextStore)
 							}
 						}
@@ -43,10 +44,12 @@ export function Providers(providers: Provider<any>[], selector?: (...args: any[]
 					})
 					if (restOfProviders.length > 0) {
 						if (context.parent.stores) {
-							this.getStoreFromContext(context.parent, restOfProviders)
+							this.getStoreFromContext(context.parent, restOfProviders, stateArr)
 						} else {
 							throw TypeError(`Could not find the instance of ${providers[0].name}. pass it as the props to <Provider>`)
 						}
+					} else {
+						Object.assign(this.state, selector ? selector(...stateArr) : stateArr.reduce((acc, state) => ({ ...acc, state }), {}))
 					}
 				} else {
 					throw TypeError("Could not find store in the context, Please wrap your root component in the <Provider>.")
