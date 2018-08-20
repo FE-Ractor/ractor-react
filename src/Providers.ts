@@ -49,7 +49,7 @@ export function Providers(providers: Provider<any>[], selector?: (...args: any[]
 							throw TypeError(`Could not find the instance of ${providers[0].name}. pass it as the props to <Provider>`)
 						}
 					} else {
-						Object.assign(this.state, selector ? selector(...stateArr) : stateArr.reduce((acc, state) => ({ ...acc, state }), {}))
+						Object.assign(this.state, selector ? selector(...stateArr) : stateArr.reduce((acc, state) => ({ ...acc, ...state }), {}))
 					}
 				} else {
 					throw TypeError("Could not find store in the context, Please wrap your root component in the <Provider>.")
